@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Code for Challenge Module.
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function drupal_challenge_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node']) && $form['#node']->type . '_node_form' == $form_id) {
+    if (isset($form['#node']->field_employment_type) && is_array($form['#node']->field_employment_type)) {
+      foreach ($form['#node']->field_employment_type['und'] as $field_employment_type) {
+        if ($field_employment_type['value'] == 'freelance') {
+          $form['field_employment_type']['#disabled'] = TRUE;
+          return;
+        }
+      }
+    }
+  }
+}
